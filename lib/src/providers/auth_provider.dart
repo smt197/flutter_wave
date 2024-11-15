@@ -1,17 +1,20 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_wave/src/providers/providerInterface.dart';
 import '../services/apiInterface.dart';
 import '../services/bd/StorageService.dart';
 import '../../utils/constants.dart';
 
-class AuthProvider with ChangeNotifier {
+class AuthProvider with ChangeNotifier implements ProviderInterface {
   Map<String, dynamic>? _user;
   bool _isLoading = false;
   String? _errorMessage;
   final ApiInterface _apiService;
   final StorageService _storageService;
 
+  @override
   late final Future<List<dynamic>> transactions;
+  @override
   late final Future<Map<String, dynamic>> balanceData;
 
   AuthProvider(this._apiService, this._storageService) {
@@ -19,14 +22,20 @@ class AuthProvider with ChangeNotifier {
     balanceData = _apiService.getBalanceData();
   }
 
+  @override
   Map<String, dynamic>? get user => _user;
+  @override
   bool get isLoading => _isLoading;
+  @override
   String? get errorMessage => _errorMessage;
+  @override
   bool get isAuthenticated => _user != null;
 
+  @override
   ApiInterface get apiService => _apiService;
 
 
+  @override
   Future<void> checkIfUserIsAuthenticated() async {
     final userData = await _storageService.getData(Constants.userDataKey);
     if (userData != null) {
@@ -35,6 +44,7 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
+  @override
   Future<void> login(String email, String password) async {
     _isLoading = true;
     _errorMessage = null;
@@ -65,6 +75,7 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
+  @override
   Future<void> register(Map<String, dynamic> data) async {
     _isLoading = true;
     _errorMessage = null;
@@ -92,6 +103,7 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
+  @override
   Future<void> loadUserFromStorage() async {
     final userData = await _storageService.getData(Constants.userDataKey);
     if (userData != null) {
@@ -104,6 +116,7 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
+  @override
   Future<void> logout() async {
     _user = null;
     _errorMessage = null;

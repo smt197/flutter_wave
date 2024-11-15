@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../services/apiInterface.dart';
 
-abstract class AuthRepositoryInterface with ChangeNotifier {
+abstract class ProviderInterface with ChangeNotifier {
   Map<String, dynamic>? get user;
   bool get isLoading;
   String? get errorMessage;
@@ -16,5 +16,5 @@ abstract class AuthRepositoryInterface with ChangeNotifier {
 
   Future<List<dynamic>> get transactions;
   Future<Map<String, dynamic>> get balanceData;
-  
+
 }
